@@ -722,6 +722,10 @@ gxf_result_t VideoEncoderRequest::setEncoderParameters() {
       CHECK_ENCODER_ERROR(setBitrate(impl_->ctx, impl_->ctx->bitrate),
                           "Failed to set encoder bitrate")
     }
+
+    // Enable SPS/PPS insertion at IDR frames for CUVID (Thor and newer, x86 discrete GPUs)
+    CHECK_ENCODER_ERROR(setInsertSpsPpsAtIdrEnabled(impl_->ctx, true),
+                        "Failed to set encoder SPSPPS at IDR")
   } else {
     CHECK_ENCODER_ERROR(setLevel(impl_->ctx, impl_->ctx->level),
                         "Failed to set h264 video level")
